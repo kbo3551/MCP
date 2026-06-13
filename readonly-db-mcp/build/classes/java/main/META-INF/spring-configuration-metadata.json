@@ -1,0 +1,38 @@
+{
+  "groups": [
+    {
+      "name": "db-mcp",
+      "type": "dev.codex.dbmcp.infrastructure.config.DbMcpProperties",
+      "sourceType": "dev.codex.dbmcp.infrastructure.config.DbMcpProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "db-mcp.allowed-owners",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "dev.codex.dbmcp.infrastructure.config.DbMcpProperties"
+    },
+    {
+      "name": "db-mcp.default-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "dev.codex.dbmcp.infrastructure.config.DbMcpProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "db-mcp.max-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "dev.codex.dbmcp.infrastructure.config.DbMcpProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "db-mcp.query-timeout-seconds",
+      "type": "java.lang.Integer",
+      "sourceType": "dev.codex.dbmcp.infrastructure.config.DbMcpProperties",
+      "defaultValue": 0
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

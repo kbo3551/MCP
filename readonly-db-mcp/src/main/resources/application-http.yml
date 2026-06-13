@@ -1,0 +1,18 @@
+spring:
+  config:
+    activate:
+      on-profile: http
+  main:
+    web-application-type: servlet
+  ai:
+    mcp:
+      server:
+        stdio: false
+        protocol: STREAMABLE
+        streamable-http:
+          mcp-endpoint: /mcp
+          keep-alive-interval: 30s
+
+server:
+  address: ${MCP_SERVER_ADDRESS:0.0.0.0}
+  port: ${MCP_SERVER_PORT:9350}

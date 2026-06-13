@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: stdio
+  main:
+    web-application-type: none
+  ai:
+    mcp:
+      server:
+        stdio: true

@@ -1,0 +1,31 @@
+services:
+  readonly-db-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: readonly-db-mcp:local
+    container_name: readonly-db-mcp
+    env_file:
+      - .env
+    environment:
+      MCP_SERVER_ADDRESS: 0.0.0.0
+      MCP_SERVER_PORT: 9350
+      LOG_DIR: /app/logs
+    ports:
+      - "127.0.0.1:9350:9350"
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - "bash -c '</dev/tcp/127.0.0.1/9350'"
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true

@@ -1,0 +1,2 @@
+2026-06-12T15:02:07.249+09:00 {"toolName":"run_select_query","sql":"SELECT 1 AS CONNECTION_TEST FROM DUAL","appliedLimit":1,"success":true,"rowCount":1,"elapsedMs":1486,"errorMessage":null}
+2026-06-12T15:05:13.362+09:00 {"toolName":"run_select_query","sql":"SELECT COUNT(*) AS TOTAL_COUNT FROM SR00003.APPROVAL","appliedLimit":1,"success":true,"rowCount":1,"elapsedMs":1849,"errorMessage":null}

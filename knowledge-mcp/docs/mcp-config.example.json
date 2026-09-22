@@ -1,0 +1,36 @@
+{
+  "_comment": [
+    "Copy the mcpServers block into your MCP client config and restart the client.",
+    "Kiro:            <project>/.kiro/settings/mcp.json  or  ~/.kiro/settings/mcp.json",
+    "Claude Desktop:  %APPDATA%/Claude/claude_desktop_config.json",
+    "",
+    "command MUST be the JDK 17 java.exe by absolute path: this machine's global",
+    "JAVA_HOME is a 32-bit JDK 8 and cannot run a Java 17 jar.",
+    "",
+    "Build the jar first:  .\\gradlew.bat bootJar",
+    "If the client reports the server as failed, read the log - stdout carries the",
+    "protocol, so errors go to  %USERPROFILE%/.knowledge-mcp/logs/mcp-stdio.log"
+  ],
+  "mcpServers": {
+    "knowledge": {
+      "command": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.20.101-hotspot\\bin\\java.exe",
+      "args": [
+        "-jar",
+        "C:\\Users\\USER\\Desktop\\dev\\02.project\\temp\\devTool\\knowledge-mcp\\build\\libs\\knowledge-mcp.jar",
+        "--stdio"
+      ],
+      "env": {
+        "KNOWLEDGE_MCP_TRANSPORT": "stdio"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "knowledge_context",
+        "knowledge_search",
+        "knowledge_inspect",
+        "knowledge_stats",
+        "knowledge_conflicts",
+        "knowledge_review"
+      ]
+    }
+  }
+}

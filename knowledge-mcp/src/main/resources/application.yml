@@ -1,0 +1,87 @@
+# ---------------------------------------------------------------------------
+# knowledge-mcp
+#
+# Two transports share this file. Anything stdio-specific lives in
+# application-stdio.yml, which is activated by the --stdio flag.
+# ---------------------------------------------------------------------------
+knowledge:
+  # Everything the server owns lives under here: the H2 file, the generated
+  # markdown, and the stdio log.
+  home: ${user.home}/.knowledge-mcp
+  server-name: knowledge-mcp
+  server-version: 0.1.0
+
+  # Used when a caller does not pass projectKey. Leave empty to default to
+  # global-only, or set it per checkout to make PROJECT rules the default.
+  default-project-key: ""
+
+  promotion:
+    # 2 sightings -> CANDIDATE, 3 -> ACTIVE (injected). Raise active-hits if the
+    # store is filling with things the user said once.
+    candidate-hits: 2
+    active-hits: 3
+    auto-activate: true
+    # Token overlap at or above this folds a new observation into an existing rule.
+    merge-threshold: 0.82
+    # Overlap in [conflict-floor, merge-threshold) is reported as a possible
+    # contradiction for a human to resolve.
+    conflict-floor: 0.55
+
+  bundle:
+    # Character budget for the injected document. The cap is the point: an
+    # unbounded rule dump stops being useful the moment it outgrows the context.
+    max-chars: 6000
+    # A rule unseen for this long counts half as much when ranking.
+    half-life-days: 45
+    include-candidates: false
+
+  inject:
+    # Ship the current rules inside the MCP initialize response, so a client that
+    # surfaces server instructions applies them with no tool call.
+    on-initialize: true
+    max-chars: 4000
+
+  sync:
+    # Regenerate the markdown whenever an observation promotes a rule.
+    on-write: true
+    # Absolute paths that AGENT_CONTEXT.md is mirrored into. This is the
+    # file-based injection path for agents that read steering files themselves.
+    # Only the generated block is replaced; hand-written content is preserved.
+    export-targets: []
+    # - C:/Users/USER/Desktop/dev/02.project/temp/devTool/.kiro/steering/knowledge.md
+
+  security:
+    # EMPTY = the HTTP API (including the writable POST /mcp) is UNAUTHENTICATED.
+    # That is only safe because server.address below is 127.0.0.1. Set a token
+    # before binding to anything else or putting this behind a proxy.
+    token: ""
+
+spring:
+  application:
+    name: knowledge-mcp
+  datasource:
+    # AUTO_SERVER lets a stdio process and the HTTP process share one file, which
+    # is what makes the store shared rather than per-process.
+    url: "jdbc:h2:file:${knowledge.home}/db/knowledge;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE"
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+    hikari:
+      pool-name: knowledge-pool
+      maximum-pool-size: 4
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+  jackson:
+    default-property-inclusion: non_null
+
+server:
+  # Loopback only. Changing this exposes a writable API - set knowledge.security.token first.
+  address: 127.0.0.1
+  port: 8765
+
+logging:
+  level:
+    root: INFO
+    kr.co.page1.knowledge: INFO

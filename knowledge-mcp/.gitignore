@@ -1,0 +1,9 @@
+build/
+.gradle/
+out/
+*.log
+logs/
+.idea/
+*.iml
+# local knowledge home, if someone points knowledge.home inside the repo
+data/

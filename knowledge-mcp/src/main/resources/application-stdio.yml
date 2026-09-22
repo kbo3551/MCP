@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------
+# stdio profile - activated by `--stdio`.
+#
+# stdout is the protocol channel, so nothing may print there: no web server, no
+# banner, no console log. Logs go to a file instead, which is also the only place
+# to look when a client reports the server as "failed to start".
+# ---------------------------------------------------------------------------
+spring:
+  main:
+    banner-mode: off
+    web-application-type: none
+
+logging:
+  file:
+    name: ${knowledge.home}/logs/mcp-stdio.log
+  level:
+    root: INFO

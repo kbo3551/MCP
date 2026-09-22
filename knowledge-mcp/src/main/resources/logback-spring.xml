@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  stdio mode: stdout carries the MCP protocol, so the console appender must not
+  exist at all. A single stray log line there and the client reports the server as
+  broken with no useful error, which is why this is configuration rather than a
+  convention to remember.
+-->
+<configuration>
+
+    <springProfile name="stdio">
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        <property name="LOG_FILE"
+                  value="${LOG_FILE:-${user.home}/.knowledge-mcp/logs/mcp-stdio.log}"/>
+        <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="!stdio">
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+</configuration>

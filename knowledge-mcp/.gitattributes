@@ -1,0 +1,16 @@
+# Normalize text in the repo, decide the working-tree ending per file.
+* text=auto
+
+# The Gradle wrapper script is run by /bin/sh - CRLF makes it fail with a
+# confusing "bad interpreter" error, so pin it regardless of the cloner's
+# core.autocrlf setting.
+gradlew text eol=lf
+*.sh text eol=lf
+
+# Windows batch must stay CRLF.
+*.bat text eol=crlf
+
+# Never touch these.
+*.jar binary
+*.png binary
+*.ttc binary

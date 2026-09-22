@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.5'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'kr.co.page1'
+version = '0.1.0'
+description = 'Knowledge-sharing MCP server - captures user/agent patterns, promotes them into markdown rules, injects them back into agents'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // HTTP transport (POST /mcp) + REST sharing API. Also used for Jackson.
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Plain JDBC + JdbcClient. Deliberately NOT JPA: stdio mode is launched per
+    // MCP client session, so Hibernate bootstrap cost would be paid every time.
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Embedded store. AUTO_SERVER=TRUE lets the stdio process and the HTTP
+    // process share one file, which is what makes knowledge "shared" locally.
+    runtimeOnly 'com.h2database:h2'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('bootJar') {
+    archiveFileName = 'knowledge-mcp.jar'
+}
